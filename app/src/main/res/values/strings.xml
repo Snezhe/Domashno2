@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">ListView</string>
+    <string name="search">Пребарај</string>
+    <string name="title">Маркет Веро</string>
+    <string name="enter">Внеси нов производ</string>
+    <string name="enterButton">Внеси</string>
+    <string name="title2">Производи</string>
+    <string name="product1">Ariel</string>
+    <string name="count1">2</string>
+    <string name="count2">1</string>
+    <string name="product2">Twix</string>
+    <string name="product3">Kinder Bueno</string>
+    <string name="product4">Chipsy</string>
+    <string name="count3">3</string>
+    <string name="count4">2</string>
+    <string name="product5">Stobi Flips</string>
+    <string name="count5">1</string>
+    <string name="product6">Amstel</string>
+    <string name="count6">3</string>
+    <string name="product7">Coca Cola</string>
+    <string name="count7">2</string>
+    <string name="clear">Избриши ги сите производи</string>
+</resources>
