@@ -3,7 +3,7 @@
     <string name="search">Пребарај</string>
     <string name="title">Маркет Веро</string>
     <string name="enter">Внеси нов производ</string>
-    <string name="enterButton">Внеси</string>
+    <string name="enterButton">Внеси нов производ</string>
     <string name="title2">Производи</string>
     <string name="product1">Ariel</string>
     <string name="count1">2</string>
@@ -20,4 +20,8 @@
     <string name="product7">Coca Cola</string>
     <string name="count7">2</string>
     <string name="clear">Избриши ги сите производи</string>
+    <string name="addProduct">Внеси</string>
+    <string name="addProduct2">Внеси</string>
+    <string name="todo">TODO</string>
+    <string name="title3">Добредојдовте</string>
 </resources>

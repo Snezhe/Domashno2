@@ -1,6 +1,10 @@
 package com.example.listview;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,10 +29,13 @@ public class MainActivity extends AppCompatActivity {
 
     public final ArrayList<Integer> images = new ArrayList<>();
     public ArrayList<String> mtitle = new ArrayList<>();
+
+    MyAdapter adapter;
     ListView listView;
     Button clearButton;
     Button addButton;
     EditText enterText;
+    Intent intent;
     int count = 0;
     int count1 = 0;
     int count2 = 0;
@@ -37,17 +44,18 @@ public class MainActivity extends AppCompatActivity {
     int count5 = 0;
     int count6 = 0;
     int count7 = 0;
+    int count8 = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        adapter = new MyAdapter(this, mtitle, images);
 
         listView = findViewById(R.id.listview);
-        clearButton = findViewById(R.id.clear);
+        // clearButton = findViewById(R.id.clear);
         enterText = findViewById(R.id.editText);
         addButton = findViewById(R.id.button);
-
 
         mtitle.add("Пржени компири");
         mtitle.add("Млеко");
@@ -67,27 +75,71 @@ public class MainActivity extends AppCompatActivity {
         images.add(R.drawable.burger);
         images.add(R.drawable.orange);
 
-        final MyAdapter adapter = new MyAdapter(this, mtitle, images);
         listView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 
-        clearButton.setOnClickListener(new View.OnClickListener() {
+       /* clearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 listView.setAdapter(null);
                 adapter.notifyDataSetChanged();
             }
-        });
+        }); */
 
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String text = enterText.getText().toString();
+        View frameLayoutView = findViewById(R.id.container);
+        if (frameLayoutView != null) {
+            FragmentMain fragmentMain = new FragmentMain();
+            getFragmentManager().beginTransaction().add(R.id.container, fragmentMain).commit();
+        } else {
+            addButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    openActivity();
+                }
+            });
+        }
+
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        // TODO Auto-generated method stub
+        super.onConfigurationChanged(newConfig);
+    }
+
+    public void openActivity() {
+        Intent intent = Activity2.makeIntent(MainActivity.this);
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                String product = data.getExtras().getString("product");
+                mtitle.add(product);
                 images.add(R.drawable.np);
-                mtitle.add(text);
                 adapter.notifyDataSetChanged();
             }
-        });
+        }
+    }
+
+    public void ChangeFragment(View view) {
+        if (view == findViewById(R.id.button)) {
+            FragmentMain fm = new FragmentMain();
+            Fragment2 fr = new Fragment2();
+            FragmentManager fragmentManager = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.container, fr);
+            fragmentTransaction.commit();
+        }
+    }
+
+    public void getResult(String text) {
+        mtitle.add(text);
+        images.add(R.drawable.np);
+        adapter.notifyDataSetChanged();
     }
 
     class MyAdapter extends ArrayAdapter<String> {
@@ -149,6 +201,10 @@ public class MainActivity extends AppCompatActivity {
                     if (position == 7) {
                         count7++;
                         Toast.makeText(MainActivity.this, Integer.toString(count7), Toast.LENGTH_SHORT).show();
+                    }
+                    if (position == 8) {
+                        count8++;
+                        Toast.makeText(MainActivity.this, Integer.toString(count8), Toast.LENGTH_SHORT).show();
                     }
                 }
             });
