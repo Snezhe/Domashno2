@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">ListView</string>
+    <string name="app_name">Маркет Веро</string>
     <string name="search">Пребарај</string>
-    <string name="title">Маркет Веро</string>
+    <string name="title">Производи</string>
     <string name="enter">Внеси нов производ</string>
     <string name="enterButton">Внеси нов производ</string>
     <string name="title2">Производи</string>

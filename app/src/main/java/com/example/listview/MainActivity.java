@@ -4,9 +4,9 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -28,7 +28,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     public final ArrayList<Integer> images = new ArrayList<>();
-    public ArrayList<String> mtitle = new ArrayList<>();
+    public ArrayList<String> mtitle = new ArrayList<String>();
 
     MyAdapter adapter;
     ListView listView;
@@ -101,12 +101,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        // TODO Auto-generated method stub
-        super.onConfigurationChanged(newConfig);
-    }
-
     public void openActivity() {
         Intent intent = Activity2.makeIntent(MainActivity.this);
         startActivityForResult(intent, 1);
@@ -141,6 +135,13 @@ public class MainActivity extends AppCompatActivity {
         images.add(R.drawable.np);
         adapter.notifyDataSetChanged();
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.search_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
 
     class MyAdapter extends ArrayAdapter<String> {
 
