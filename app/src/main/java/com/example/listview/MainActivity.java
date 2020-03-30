@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -135,13 +134,6 @@ public class MainActivity extends AppCompatActivity {
         images.add(R.drawable.np);
         adapter.notifyDataSetChanged();
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.search_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
 
     class MyAdapter extends ArrayAdapter<String> {
 
