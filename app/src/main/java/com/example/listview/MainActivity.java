@@ -4,7 +4,10 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +22,11 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
-
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,10 +35,14 @@ public class MainActivity extends AppCompatActivity {
 
     MyAdapter adapter;
     ListView listView;
-    Button clearButton;
+    // Button clearButton;
     Button addButton;
     EditText enterText;
-    Intent intent;
+    TextView title;
+    EditText enter;
+    Button addProduct;
+    Button openPage;
+
     int count = 0;
     int count1 = 0;
     int count2 = 0;
@@ -49,12 +57,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         adapter = new MyAdapter(this, mtitle, images);
 
-        listView = findViewById(R.id.listview);
         // clearButton = findViewById(R.id.clear);
-        enterText = findViewById(R.id.editText);
-        addButton = findViewById(R.id.button);
+        listView = findViewById(R.id.listview);
+        title = (TextView) findViewById(R.id.text);
+        enterText = (EditText) findViewById(R.id.editText);
+        enter = (EditText) findViewById(R.id.editText1);
+        addButton = (Button) findViewById(R.id.button);
+        addProduct = (Button) findViewById(R.id.addProduct1);
+        openPage = (Button) findViewById(R.id.openPage);
 
         mtitle.add("Пржени компири");
         mtitle.add("Млеко");
@@ -135,6 +148,50 @@ public class MainActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
     }
 
+    public void web(View view) {
+        Intent intent = new Intent(MainActivity.this, WebViewActivity.class);
+        startActivity(intent);
+    }
+
+    public void englishLanguage(View view) {
+        Configuration conf = getResources().getConfiguration();
+        conf.locale = new Locale("en");
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        Resources resources = new Resources(getAssets(), metrics, conf);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(getResources().getString(R.string.app_name));
+        title.setText(resources.getString(R.string.title));
+        addButton.setText(resources.getString(R.string.enterButton));
+        openPage.setText(resources.getString(R.string.openPage));
+    }
+
+    public void macedonianLanguage(View view) {
+        Configuration conf = getResources().getConfiguration();
+        conf.locale = new Locale("mk");
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        Resources resources = new Resources(getAssets(), metrics, conf);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(getResources().getString(R.string.app_name));
+        title.setText(resources.getString(R.string.title));
+        addButton.setText(resources.getString(R.string.enterButton));
+        openPage.setText(resources.getString(R.string.openPage));
+    }
+
+    public void spanishLanguage(View view) {
+        Configuration conf = getResources().getConfiguration();
+        conf.locale = new Locale("es");
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        Resources resources = new Resources(getAssets(), metrics, conf);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(getResources().getString(R.string.app_name));
+        title.setText(resources.getString(R.string.title));
+        addButton.setText(resources.getString(R.string.enterButton));
+        openPage.setText(resources.getString(R.string.openPage));
+    }
+
     class MyAdapter extends ArrayAdapter<String> {
 
         Context context;
@@ -154,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
             LayoutInflater layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View row = layoutInflater.inflate(R.layout.row, parent, false);
 
-            TextView myTitle = row.findViewById(R.id.text);
+            TextView myTitle = row.findViewById(R.id.product);
             ImageView images = row.findViewById(R.id.image);
 
             images.setImageResource(rImages.get(position));

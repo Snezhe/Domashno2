@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.appcompat.app.ActionBar;
+
 public class Activity2 extends MainActivity {
 
     public static Intent makeIntent(Context context) {
@@ -29,6 +31,9 @@ public class Activity2 extends MainActivity {
                 showAlertDialog();
             }
         });
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(getResources().getString(R.string.app_name));
     }
 
     public void showAlertDialog() {
