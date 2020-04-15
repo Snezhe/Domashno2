@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Mercado Vero</string>
+    <string name="search">Busca</string>
+    <string name="title">Productos</string>
+    <string name="enter">Entra nuevos productos</string>
+    <string name="enterButton">Entra nuevos productos</string>
+    <string name="title2">Productos</string>
+    <string name="clear">Borra todos los productos</string>
+    <string name="addProduct">Entra</string>
+    <string name="addProduct2">Entra</string>
+    <string name="todo">TODO</string>
+    <string name="title3">Bienvenidos</string>
+    <string name="openPage">Pagina web</string>
+</resources>

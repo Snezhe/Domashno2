@@ -2,39 +2,44 @@ package com.example.listview;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.util.DisplayMetrics;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
+import io.paperdb.Paper;
 
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final int NEW_WORD_ACTIVITY_REQUEST_CODE = 1;
     public final ArrayList<Integer> images = new ArrayList<>();
-    public ArrayList<String> mtitle = new ArrayList<String>();
-
-    MyAdapter adapter;
-    ListView listView;
-    Button clearButton;
+    // MyAdapter adapter;
+    // ListView listView;
+    // Button clearButton;
     Button addButton;
     EditText enterText;
-    Intent intent;
+    TextView title;
+    EditText enter;
+    Button addProduct;
+    Button openPage;
     int count = 0;
     int count1 = 0;
     int count2 = 0;
@@ -44,19 +49,26 @@ public class MainActivity extends AppCompatActivity {
     int count6 = 0;
     int count7 = 0;
     int count8 = 0;
+    // public ArrayList<String> mtitle = new ArrayList<String>();
+    private ProductViewModel productViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Paper.init(this);
         setContentView(R.layout.activity_main);
-        adapter = new MyAdapter(this, mtitle, images);
 
-        listView = findViewById(R.id.listview);
+
         // clearButton = findViewById(R.id.clear);
-        enterText = findViewById(R.id.editText);
-        addButton = findViewById(R.id.button);
+        // listView = findViewById(R.id.listview);
+        title = (TextView) findViewById(R.id.text);
+        enterText = (EditText) findViewById(R.id.editText);
+        enter = (EditText) findViewById(R.id.editText1);
+        addButton = (Button) findViewById(R.id.button);
+        addProduct = (Button) findViewById(R.id.addProduct1);
+        openPage = (Button) findViewById(R.id.openPage);
 
-        mtitle.add("Пржени компири");
+        /*mtitle.add("Пржени компири");
         mtitle.add("Млеко");
         mtitle.add("Сладолед");
         mtitle.add("Лубеница");
@@ -74,8 +86,8 @@ public class MainActivity extends AppCompatActivity {
         images.add(R.drawable.burger);
         images.add(R.drawable.orange);
 
-        listView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+        //listView.setAdapter(adapter);
+        //adapter.notifyDataSetChanged();
 
        /* clearButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,23 +110,34 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
+
+        RecyclerView recyclerView = findViewById(R.id.recyclerview);
+        final ProductListAdapter adapter = new ProductListAdapter(this);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        productViewModel = new ViewModelProvider(this).get(ProductViewModel.class);
+
+        productViewModel.getAllProducts().observe(this, new Observer<List<Product>>() {
+            @Override
+            public void onChanged(List<Product> products) {
+                adapter.setProductList(products);
+            }
+        });
+
     }
 
     public void openActivity() {
-        Intent intent = Activity2.makeIntent(MainActivity.this);
-        startActivityForResult(intent, 1);
+        Intent intent = new Intent(MainActivity.this, Activity2.class);
+        startActivityForResult(intent, NEW_WORD_ACTIVITY_REQUEST_CODE);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1) {
-            if (resultCode == RESULT_OK) {
-                String product = data.getExtras().getString("product");
-                mtitle.add(product);
-                images.add(R.drawable.np);
-                adapter.notifyDataSetChanged();
-            }
+        if (requestCode == NEW_WORD_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+            Product product = new Product(data.getStringExtra(Activity2.EXTRA_REPLY), R.drawable.np);
+            productViewModel.insert(product);
         }
     }
 
@@ -130,12 +153,56 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getResult(String text) {
-        mtitle.add(text);
+        // mtitle.add(text);
         images.add(R.drawable.np);
-        adapter.notifyDataSetChanged();
+        //adapter.notifyDataSetChanged();
     }
 
-    class MyAdapter extends ArrayAdapter<String> {
+    public void web(View view) {
+        Intent intent = new Intent(MainActivity.this, WebViewActivity.class);
+        startActivity(intent);
+    }
+
+    public void englishLanguage(View view) {
+        Configuration conf = getResources().getConfiguration();
+        conf.locale = new Locale("en");
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        Resources resources = new Resources(getAssets(), metrics, conf);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(getResources().getString(R.string.app_name));
+        title.setText(resources.getString(R.string.title));
+        addButton.setText(resources.getString(R.string.enterButton));
+        openPage.setText(resources.getString(R.string.openPage));
+    }
+
+    public void macedonianLanguage(View view) {
+        Configuration conf = getResources().getConfiguration();
+        conf.locale = new Locale("mk");
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        Resources resources = new Resources(getAssets(), metrics, conf);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(getResources().getString(R.string.app_name));
+        title.setText(resources.getString(R.string.title));
+        addButton.setText(resources.getString(R.string.enterButton));
+        openPage.setText(resources.getString(R.string.openPage));
+    }
+
+    public void spanishLanguage(View view) {
+        Configuration conf = getResources().getConfiguration();
+        conf.locale = new Locale("es");
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        Resources resources = new Resources(getAssets(), metrics, conf);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(getResources().getString(R.string.app_name));
+        title.setText(resources.getString(R.string.title));
+        addButton.setText(resources.getString(R.string.enterButton));
+        openPage.setText(resources.getString(R.string.openPage));
+    }
+
+    /*class MyAdapter extends ArrayAdapter<String> {
 
         Context context;
         ArrayList<String> rTitle;
@@ -154,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
             LayoutInflater layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View row = layoutInflater.inflate(R.layout.row, parent, false);
 
-            TextView myTitle = row.findViewById(R.id.text);
+            TextView myTitle = row.findViewById(R.id.product);
             ImageView images = row.findViewById(R.id.image);
 
             images.setImageResource(rImages.get(position));
@@ -204,6 +271,6 @@ public class MainActivity extends AppCompatActivity {
             return row;
         }
 
-    }
+    } */
 
 }

@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Market Vero</string>
+    <string name="search">Search</string>
+    <string name="title">Products</string>
+    <string name="enter">Enter new products</string>
+    <string name="enterButton">Enter new products</string>
+    <string name="title2">Products</string>
+    <string name="clear">Delete all products</string>
+    <string name="addProduct">Enter</string>
+    <string name="addProduct2">Enter</string>
+    <string name="todo"> TODO </string>
+    <string name="title3">Welcome</string>
+    <string name="openPage">Web Page</string>
+</resources>
