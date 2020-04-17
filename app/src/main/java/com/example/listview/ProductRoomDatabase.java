@@ -18,6 +18,7 @@ public abstract class ProductRoomDatabase extends RoomDatabase {
     static final ExecutorService databaseWriteExecutor =
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
     private static volatile ProductRoomDatabase INSTANCE;
+
     private static RoomDatabase.Callback roomDatabaseCallback = new RoomDatabase.Callback() {
         @Override
         public void onOpen(@NonNull SupportSQLiteDatabase db) {
@@ -25,6 +26,7 @@ public abstract class ProductRoomDatabase extends RoomDatabase {
 
             databaseWriteExecutor.execute(() -> {
                 ProductDao dao = INSTANCE.productDao();
+
                 /* dao.deleteAll();
 
                 Product product = new Product("Пржени компири", R.drawable.friess);
@@ -35,6 +37,7 @@ public abstract class ProductRoomDatabase extends RoomDatabase {
                 Product product5 = new Product("Чипс", R.drawable.chips);
                 Product product6 = new Product("Сендвич", R.drawable.burger);
                 Product product7 = new Product("Портокали", R.drawable.orange);
+
                 dao.insert(product);
                 dao.insert(product1);
                 dao.insert(product2);
@@ -43,6 +46,7 @@ public abstract class ProductRoomDatabase extends RoomDatabase {
                 dao.insert(product5);
                 dao.insert(product6);
                 dao.insert(product7); */
+
             });
         }
     };
@@ -53,7 +57,8 @@ public abstract class ProductRoomDatabase extends RoomDatabase {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             ProductRoomDatabase.class, "product_database")
-                            .addCallback(roomDatabaseCallback).build();
+                            .allowMainThreadQueries().addCallback(roomDatabaseCallback).
+                                    fallbackToDestructiveMigration().build();
                 }
             }
         }
